@@ -1,0 +1,11 @@
+<!-- Generated template for the BlelistComponent component -->
+<div>
+    <ion-list>
+        <button ion-item *ngFor="let device of multible.devices" (click)="emitSelect(device)">
+            {{ device.name ? device.name : device.id }}
+            <ion-icon item-end *ngIf="device.id == currentId && device.connected" name="checkmark-circle"></ion-icon>
+            <ion-icon item-end *ngIf="device.id == currentId && !device.connected" name="alert"></ion-icon>
+            <ion-icon item-end *ngIf="device.id != currentId && device.connected" name="checkmark"></ion-icon>
+        </button>
+    </ion-list>
+</div>
