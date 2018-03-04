@@ -1,5 +1,5 @@
 import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
-import { MultiBLEProvider, BLEDevice } from '../../providers/multible/multible';
+import { MultiBLEProvider } from '../../providers/multible/multible';
 
 
 /**
@@ -18,12 +18,27 @@ export class BLEListComponent {
   @Output() select = new EventEmitter();
 
 
-  constructor(private multible: MultiBLEProvider, public zone: NgZone) {
-    this.multible.rescan(this.zone);
+  constructor(private multible: MultiBLEProvider) {
+    this.multible.startScan();
   }
 
   emitSelect(device: any) {
     this.select.emit(device);
+  }
+
+  enableBluetooth() {
+    console.log("BLEListComponent::enableBluetooth");
+    this.multible.enableBluetooth();
+  }
+
+  stopScanning() {
+    console.log("BLEListComponent::stopScanning");
+    this.multible.stopScan();
+  }
+
+  startScanning() {
+    console.log("BLEListComponent::startScanning");
+    this.multible.startScan();
   }
 
 }

@@ -9,8 +9,11 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BLE } from '@ionic-native/ble';
+import { IonicStorageModule } from '@ionic/storage';
+
 import { MultiBLEProvider } from '../providers/multible/multible';
 import { BLEListComponent } from '../components/blelist/blelist';
+import { MapToIterable } from './map-to-iterable-pipe/map-to-iterable-pipe';
 
 @NgModule({
   declarations: [
@@ -18,10 +21,12 @@ import { BLEListComponent } from '../components/blelist/blelist';
     HomePage,
     ListPage,
     BLEListComponent,
+    MapToIterable,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

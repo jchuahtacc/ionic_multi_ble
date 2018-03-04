@@ -9,15 +9,25 @@ import { MultiBLEProvider } from '../../providers/multible/multible';
 })
 export class HomePage {
 
-  public currentId: String = "30:AE:A4:14:50:96";
+  public currentId: string = "30:AE:A4:14:50:96";
 
   constructor(public navCtrl: NavController, private multible: MultiBLEProvider) {
 
   }
 
-  deviceSelected(device: any) {
-    console.log("Device selected", device);
-    this.multible.connect(device.id);
+  deviceSelected(device_id: string) {
+    console.log("HomePage::deviceSelected", device_id);
+    this.multible.connect(device_id).subscribe(
+        (data) => {
+            console.log("HomePage::deviceSelected connection data", data);
+        },
+        (error) => {
+            console.log("HomePage::deviceSelected connection error", error);
+        },
+        () => {
+            console.log("HomePage::deviceSelected connection finished");
+        }
+    );
   }
 
 }
