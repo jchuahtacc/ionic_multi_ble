@@ -35,20 +35,20 @@ export class MultiBLEProvider {
             this.storage.get(this.STORAGE_KEY).then(
                 (data) => {
                     if (data) {
-                        this.stored_devices = data;
-                        console.log("MultiBLEProvider::constructor loaded stored devices", data);
-                        this.devices = this.stored_devices;
-                        for (var device_id of Object.keys(this.devices)) {
-                            this.devices[device_id].connected = false;
-                            this.devices[device_id].connecting = false;
-                            this.devices[device_id].stored = true;
-                        }
                         this.zone.run(
                             () => {
-                                this.device_ids = Object.keys(this.devices);
+                                this.stored_devices = data;
+                                console.log("MultiBLEProvider::constructor loaded stored devices", data);
+                                for (var device_id of Object.keys(this.stored_devices)) {
+                                    if (this.stored_devices[device_id].stored) {
+                                        this.devices[device_id] = this.stored_devices[device_id];
+                                        this.devices[device_id].connected = false;
+                                        this.devices[device_id].connecting = false;
+                                    }
+                                }
+                                this.reconnectAll();
                             }
                         );
-                        this.reconnectAll();
                     }
                 },
                 (error) => {
@@ -99,7 +99,6 @@ export class MultiBLEProvider {
             this.reconnecting = connecting;
             if (!this.reconnecting) {
                 console.log("MultiBLEProvider::reconnectAll finished");
-                this.stopScan();
             }
         };
         for (var device_id of Object.keys(this.stored_devices)) {
@@ -154,17 +153,20 @@ export class MultiBLEProvider {
 
   saveDevice(deviceId: string) {
     this.devices[deviceId].stored = true;
-    if (this.devices[deviceId]) {
-        this.stored_devices[deviceId] = this.devices[deviceId];
-        this.storage.set(this.STORAGE_KEY, this.stored_devices).then(
-            (data) => {
-                console.log("MultiBLEProvider::saveDevice success", data);
-            },
-            (error) => {
-                console.log("MultiBLEProvider::saveDevice error", error);
-            }
-        );
+    this.stored_devices = { };
+    for (var device_id of Object.keys(this.devices)) {
+        if (this.devices[device_id].stored) {
+            this.stored_devices[device_id] = this.devices[device_id];
+        }
     }
+    this.storage.set(this.STORAGE_KEY, this.stored_devices).then(
+        (data) => {
+            console.log("MultiBLEProvider::saveDevice success", this.stored_devices);
+        },
+        (error) => {
+            console.log("MultiBLEProvider::saveDevice error", error);
+        }
+    );
   }
 
   forgetDevice(deviceId: string) {
@@ -218,7 +220,7 @@ export class MultiBLEProvider {
         (data) => {
             this.zone.run(
                 () => {
-                    if (data.id in Object.keys(this.devices)) {
+                    if (this.devices[data.id]) {
                         console.log("MultiBLEProvider::startScan refreshing device", data);
                         if (data.name != this.devices[data.id].name) {
                             this.devices[data.id].name = data.name;
@@ -233,7 +235,6 @@ export class MultiBLEProvider {
                         }
                         this.devices[data.id] = device;
                         this.device_ids = Object.keys(this.devices);
-                        console.log("new device_ids", this.device_ids);
                     }
                     if (data.id in Object.keys(this.stored_devices) && !this.devices[data.id].connected) {
                         console.log("MultiBLEProvider::startScan reconnecting to stored device", device.id);
@@ -313,6 +314,7 @@ export class MultiBLEProvider {
                         () => {
                             this.devices[deviceId].connected = false; 
                             this.devices[deviceId].connecting = false;
+                            console.log("Current device list", this.devices);
                         }
                     );
                     observer.error(error);
