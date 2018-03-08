@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content padding>
-    <blelist (select)="deviceSelected($event)" [currentId]="currentId"></blelist>
+    <blelist (select)="deviceSelected($event)"></blelist>
+    <button ion-button (click)="multible.forgetAll()">Forget all devices</button>
 
 </ion-content>
