@@ -21,6 +21,7 @@ export class BLEListComponent {
 
   constructor(private multible: MultiBLEProvider, private events: Events, private zone: NgZone) {
     this.events.subscribe(multible.TOPIC, (event) => {
+        console.log("Event notification", event);
     });
     this.multible.startScan();
   }
