@@ -54,6 +54,7 @@ export class MultiBLEProvider {
                                 this.devices[device_id] = this.stored_devices[device_id];
                                 this.devices[device_id].connected = false;
                                 this.devices[device_id].connecting = false;
+                                this.devices[device_id].stored = true;
                             }
                         }
                         this.reconnectAll();
@@ -239,8 +240,9 @@ export class MultiBLEProvider {
                         this.device_ids = Object.keys(this.devices);
                         this.events.publish(this.TOPIC, new MultiBLEEvent("discovered", device_id, data));
                     }
-                    if (this.stored_devices[device_id] && !this.devices[device_id].connected) {
-                    // console.log("MultiBLEProvider::startScan reconnecting to stored device", device.id);
+
+                    if (this.devices[device_id].stored && !this.devices[device_id].connected) {
+                    // console.log("MultiBLEProvider::startScan reconnecting to stored device", device_id);
                         this.connect(device_id);
                         this.events.publish(this.TOPIC, new MultiBLEEvent("reconnecting", device_id, this.devices[device_id]));
                         this.device_ids = Object.keys(this.devices);
@@ -310,6 +312,8 @@ export class MultiBLEProvider {
                     this.devices[device_id].connected = false; 
                     this.devices[device_id].connecting = false;
                     this.device_ids = Object.keys(this.devices);
+                    console.log("Connection error", error);
+                    this.events.publish(this.TOPIC, new MultiBLEEvent("error", device_id, this.devices[device_id]));
                 }
             );
         },
