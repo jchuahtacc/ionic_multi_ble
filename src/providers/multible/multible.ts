@@ -85,7 +85,9 @@ export class MultiBLEProvider {
         (data) => {
         // console.log("MultiBLEProvider::forgetAll success", data);
             this.storage.get(this.STORAGE_KEY).then(
-            (data) => { // console.log("MultiBLEProvider::forgetAll storage is now", data); }
+                (data) => { 
+                // console.log("MultiBLEProvider::forgetAll storage is now", data); 
+                }
             );
         },
         (error) => {
