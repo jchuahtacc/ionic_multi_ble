@@ -2,7 +2,7 @@
 <div>
     <ion-list>
         <ion-list-header>Bluetooth Devices</ion-list-header>
-        <button ion-item *ngFor="let device_id of multible.device_ids" (click)="emitSelect(device_id)" [disabled]="!multible.isEnabled">
+        <button ion-item *ngFor="let device_id of multible.device_ids" (click)="selectDevice(device_id)" [disabled]="!multible.isEnabled">
             <ion-icon item-end *ngIf="multible.devices[device_id].id == currentId && multible.devices[device_id].connected" name="checkmark-circle"></ion-icon>
             <ion-icon item-end *ngIf="multible.devices[device_id].id == currentId && !multible.devices[device_id].connected && !multible.devices[device_id].connecting" name="alert"></ion-icon>
             <ion-icon item-end *ngIf="multible.devices[device_id].id != currentId && multible.devices[device_id].connected" name="checkmark"></ion-icon>

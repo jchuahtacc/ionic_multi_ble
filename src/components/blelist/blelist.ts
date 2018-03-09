@@ -1,5 +1,6 @@
 import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
 import { MultiBLEProvider } from '../../providers/multible/multible';
+import { Events } from 'ionic-angular';
 
 
 /**
@@ -15,15 +16,17 @@ import { MultiBLEProvider } from '../../providers/multible/multible';
 export class BLEListComponent {
 
   @Input('currentId') currentId: String;
-  @Output() select = new EventEmitter();
+  @Output() deviceEvents: EventEmitter< any > = new EventEmitter();
 
 
-  constructor(private multible: MultiBLEProvider) {
+  constructor(private multible: MultiBLEProvider, private events: Events, private zone: NgZone) {
+    this.events.subscribe(multible.TOPIC, (event) => {
+    });
     this.multible.startScan();
   }
 
-  emitSelect(device: any) {
-    this.select.emit(device);
+  selectDevice(device_id: any) {
+    this.multible.connect(device_id);
   }
 
   enableBluetooth() {

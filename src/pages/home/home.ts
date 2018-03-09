@@ -16,6 +16,7 @@ export class HomePage {
   }
 
   deviceSelected(device_id: string) {
+  /*
     console.log("HomePage::deviceSelected", device_id);
     this.multible.connect(device_id).subscribe(
         (data) => {
@@ -28,6 +29,7 @@ export class HomePage {
             console.log("HomePage::deviceSelected connection finished");
         }
     );
+*/
   }
 
 }
