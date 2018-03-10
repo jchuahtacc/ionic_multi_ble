@@ -37,7 +37,7 @@ Each page adds an additional page to the navigation sidebar. When clicked, it wi
 
 The `DevicePage` component is a boilerplate for a page that interacts with a Bluetooth LE device. You can add UI elements specific to your application here. One `DevicePage` component appears as multiple pages in the navigation sidebar. When selected in the navigation sidebar, `DevicePage` receives the name of the page that was selected and loads the last Bluetooth LE device associated with the page name. The Bluetooth device's ID is stored in the `device_id` variable.
 
-##### [`<blelist` component (`./src/components/blelist`)](./src/pages/blelist/)
+##### [`<blelist>` component (`./src/components/blelist`)](./src/pages/blelist/)
 
 This component allows you to connect to Bluetooth LE devices.
 
