@@ -35,10 +35,10 @@ export class MultiBLEProvider {
   public scanning: boolean = false;
   public isEnabled: boolean = false;
   public reconnecting: boolean = false;
-  public STORAGE_KEY: string = "multible_devices";
+  private STORAGE_KEY: string = "multible_devices";
   public TOPIC: string = "multible";
-  public reconnect_devices: any = { };
-  public reconnect_subscription_handler: any;
+  private reconnect_devices: any = { };
+  private reconnect_subscription_handler: any;
 
   constructor(private ble: BLE, private storage: Storage, private events: Events, private zone: NgZone) {
     this.checkBluetooth();
