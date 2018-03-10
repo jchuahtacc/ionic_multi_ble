@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Events } from 'ionic-angular';
 import { BLEListComponent } from '../../components/blelist/blelist';
 import { MultiBLEProvider } from '../../providers/multible/multible';
+import { AfterViewInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-home',
@@ -9,27 +11,36 @@ import { MultiBLEProvider } from '../../providers/multible/multible';
 })
 export class HomePage {
 
-  public currentId: string = "30:AE:A4:14:50:96";
+  @ViewChild('blelist') blelist: BLEListComponent;
+  public showlist: boolean = true;
+  public storage_key : string = "HomePageKey";
 
-  constructor(public navCtrl: NavController, private multible: MultiBLEProvider) {
-
+  constructor(public navCtrl: NavController, public storage: Storage, public events: Events, public multible: MultiBLEProvider) {
+    this.events.subscribe(this.multible.TOPIC, 
+        (event) => {
+            if (this.blelist && event.device_id == this.blelist.selectedDevice) {
+                if (event.event == "connected") {
+                    this.storage.set(this.storage_key, this.blelist.selectedDevice);
+                    setTimeout(() => { this.blelist.setVisibility(false); }, 1000);
+                } 
+                if (event.event == "error") {
+                    this.blelist.setVisibility(true);
+                }
+            }
+        }
+    );
   }
 
   deviceSelected(device_id: string) {
-  /*
     console.log("HomePage::deviceSelected", device_id);
-    this.multible.connect(device_id).subscribe(
+  }
+
+  ngAfterViewInit() {
+    this.storage.get(this.storage_key).then(
         (data) => {
-            console.log("HomePage::deviceSelected connection data", data);
-        },
-        (error) => {
-            console.log("HomePage::deviceSelected connection error", error);
-        },
-        () => {
-            console.log("HomePage::deviceSelected connection finished");
+            this.blelist.selectedDevice = data as string;
         }
     );
-*/
   }
 
 }

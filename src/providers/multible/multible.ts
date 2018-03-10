@@ -312,7 +312,6 @@ export class MultiBLEProvider {
                     this.devices[device_id].connected = false; 
                     this.devices[device_id].connecting = false;
                     this.device_ids = Object.keys(this.devices);
-                    console.log("Connection error", error);
                     this.events.publish(this.TOPIC, new MultiBLEEvent("error", device_id, this.devices[device_id]));
                 }
             );

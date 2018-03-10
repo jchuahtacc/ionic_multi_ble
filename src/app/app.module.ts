@@ -14,6 +14,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MultiBLEProvider } from '../providers/multible/multible';
 import { BLEListComponent } from '../components/blelist/blelist';
 import { MapToIterable } from './map-to-iterable-pipe/map-to-iterable-pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MapToIterable } from './map-to-iterable-pipe/map-to-iterable-pipe';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
