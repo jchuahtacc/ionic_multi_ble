@@ -8,8 +8,31 @@
 </ion-header>
 
 <ion-content padding>
-    <h3>A device page for {{ name }}</h3>
+    <h3>A Page for {{ name }}</h3>
     <p>Device controls and content go here. The footer at the bottom can be used to select a device specifically for {{ name }}.</p>
+    <h5>Device connection status symbols</h5>
+    <ion-list no-lines>
+        <ion-item>
+            <ion-icon item-end name="checkmark-circle"></ion-icon>
+            Connected, current page
+        </ion-item>
+        <ion-item>
+            <ion-icon item-end name="alert"></ion-icon>
+            Disconnected, current page
+        </ion-item>
+        <ion-item>
+            <ion-icon item-end name="checkmark"></ion-icon>
+            Connected
+        </ion-item>
+        <ion-item>
+            <ion-icon item-end name="">!</ion-icon>
+            Disconnected
+        </ion-item>
+        <ion-item>
+            <ion-spinner item-end name="bubbles"></ion-spinner>
+            Connection in progress
+        </ion-item>
+    </ion-list>
 </ion-content>
 
 <ion-footer>
