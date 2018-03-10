@@ -17,6 +17,7 @@ export class DevicePage {
   public name: string = "";
   public deviceDisplayName: string = "";
   public device_id: string = "";
+  public services: string[] = ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"] // UART Serial service
 
   constructor(public navCtrl: NavController, public storage: Storage, public events: Events, public multible: MultiBLEProvider, public navParams: NavParams) {
     this.events.subscribe(this.multible.TOPIC, 

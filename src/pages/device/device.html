@@ -9,7 +9,7 @@
 
 <ion-content padding>
     <h3>A Page for {{ name }}</h3>
-    <p>Device controls and content go here. The footer at the bottom can be used to select a device specifically for {{ name }}.</p>
+    <p>Device controls and content go here. The footer at the bottom can be used to select a device specifically for {{ name }}. This page only displays BLE devices advertising the UART service.</p>
     <h5>Device connection status symbols</h5>
     <ion-list no-lines>
         <ion-item>
@@ -42,5 +42,5 @@
             <button ion-button (click)="switchDevice()">Switch device</button>
         </ion-buttons>
     </ion-toolbar>
-    <blelist #blelist *ngIf="showlist" (deviceSelected)="deviceSelected($event)"></blelist>
+    <blelist #blelist *ngIf="showlist" (deviceSelected)="deviceSelected($event)" [services]="services"></blelist>
 </ion-footer>

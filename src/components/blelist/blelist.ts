@@ -31,13 +31,14 @@ export class BLEListComponent {
 
   @Input('selectedDevice') inputDevice: string = "";
   @Input('disableSelect') disableSelect: boolean = false;
+  @Input('services') services: string[] = [];
   @Output('deviceSelected') selectEmitter: EventEmitter< string > = new EventEmitter();
 
   public visibleState: string = "visible"; 
   public selectedDevice: string = "";
 
   constructor(private multible: MultiBLEProvider, private events: Events) {
-    this.multible.startScan();
+    this.multible.startScan(this.services);
   }
 
   setVisibility(visibility: boolean) {
