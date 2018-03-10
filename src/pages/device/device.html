@@ -8,7 +8,16 @@
 </ion-header>
 
 <ion-content padding>
-    <div *ngIf="blelist">Selected device: {{ blelist.selectedDevice }}</div>
-    <blelist #blelist *ngIf="showlist" (deviceSelected)="deviceSelected($event)"></blelist>
-    <div> more stuff </div>
+    <h3>A device page for {{ name }}</h3>
+    <p>Device controls and content go here. The footer at the bottom can be used to select a device specifically for {{ name }}.</p>
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar *ngIf="blelist && blelist.visibleState != 'visible'">
+        <span *ngIf="blelist">{{ deviceDisplayName }}</span>
+        <ion-buttons end>
+            <button ion-button (click)="switchDevice()">Switch device</button>
+        </ion-buttons>
+    </ion-toolbar>
+    <blelist #blelist *ngIf="showlist" (deviceSelected)="deviceSelected($event)"></blelist>
+</ion-footer>

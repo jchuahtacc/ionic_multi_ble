@@ -14,7 +14,7 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  devices: Array<string>;
+  public devices: Array<string>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();

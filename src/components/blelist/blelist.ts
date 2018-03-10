@@ -30,6 +30,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class BLEListComponent {
 
   @Input('selectedDevice') inputDevice: string = "";
+  @Input('disableSelect') disableSelect: boolean = false;
   @Output('deviceSelected') selectEmitter: EventEmitter< string > = new EventEmitter();
 
   public visibleState: string = "visible"; 

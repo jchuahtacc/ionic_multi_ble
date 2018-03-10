@@ -15,16 +15,18 @@ export class DevicePage {
   public showlist: boolean = true;
   public storage_key : string = "";
   public name: string = "";
+  public deviceDisplayName: string = "";
+  public device_id: string = "";
 
   constructor(public navCtrl: NavController, public storage: Storage, public events: Events, public multible: MultiBLEProvider, public navParams: NavParams) {
     this.events.subscribe(this.multible.TOPIC, 
         (event) => {
-            if (this.blelist && event.device_id == this.blelist.selectedDevice) {
+            if (this.blelist && event.device_id == this.device_id) {
                 if (event.event == "connected") {
                     this.storage.set(this.storage_key, this.blelist.selectedDevice);
                     setTimeout(() => { this.blelist.setVisibility(false); }, 1000);
                 } 
-                if (event.event == "error") {
+                if (event.event == "error" || event.event == "disconnected") {
                     this.blelist.setVisibility(true);
                 }
             }
@@ -33,7 +35,12 @@ export class DevicePage {
   }
 
   deviceSelected(device_id: string) {
-    console.log("DevicePage::deviceSelected", device_id);
+    this.device_id = device_id;
+  }
+
+  switchDevice() {
+    this.multible.disconnect(this.device_id);
+    this.blelist.selectedDevice = "";
   }
 
   ionViewDidEnter() {
@@ -42,7 +49,14 @@ export class DevicePage {
         this.storage_key = "device" + this.name;
         this.storage.get(this.storage_key).then(
             (data) => {
-                this.blelist.selectedDevice = data as string;
+                this.device_id = data as string;
+                this.blelist.selectedDevice = this.device_id;
+                if (this.multible.devices[this.device_id]) {
+                    this.deviceDisplayName = this.multible.devices[this.device_id].name ? this.multible.devices[this.device_id].name : data;
+                }
+                if (this.multible.devices[this.device_id] && this.multible.devices[this.device_id].connected) {
+                    this.blelist.setVisibility(false);
+                }
             }
         );
     }
